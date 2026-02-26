@@ -45,7 +45,7 @@ const Signup = () => {
   const onRoleSelect = (role) => {
     setOpenRoleModal(false);
     setActiveRole(role);
-    signup(form);
+    signup(form, role);
     navigate(role === "doctor" ? "/doctor/onboarding" : "/patient/register");
   };
 

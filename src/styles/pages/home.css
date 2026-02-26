@@ -1,4 +1,5 @@
 .home-page { display: grid; gap: 20px; padding: 20px; max-width: 1240px; margin: 0 auto; width: 100%; }
+.home-page section { display: grid; gap: 12px; }
 .hero-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
 .hero-copy, .hero-visual, .search-panel, .feature-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); }
 .hero-copy { padding: 22px; }
@@ -51,35 +52,6 @@
 .feature-card:hover { transform: translateY(-4px); }
 .clickable-card { color: inherit; }
 .feature-icon { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--secondary); margin-bottom: 10px; font-weight: 700; }
-.doctor-carousel { display: grid; gap: 12px; }
-.carousel-head { display: flex; justify-content: flex-end; }
-.carousel-nav { display: flex; gap: 8px; }
-.carousel-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1px solid #cde0ec;
-  background: #fff;
-  color: var(--primary);
-  font-size: 24px;
-  line-height: 1;
-  cursor: pointer;
-}
-.carousel-btn:hover { background: #f2f8fc; }
-.carousel-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-.carousel-item { min-width: 0; display: flex; }
-.carousel-item .doctor-card { width: 100%; }
-.carousel-dots { display: flex; justify-content: center; gap: 6px; }
-.carousel-dots .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 0;
-  background: #c5dbe9;
-  cursor: pointer;
-  padding: 0;
-}
-.carousel-dots .dot.active { background: var(--primary); transform: scale(1.15); }
 .discover-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .discover-card {
   background: #fff;
@@ -94,7 +66,6 @@
 .discover-card li a { color: var(--text-secondary); }
 .discover-card li a:hover { color: var(--primary); text-decoration: underline; }
 @media (max-width:1100px){ .feature-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
-@media (max-width:1024px){ .carousel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width:860px){ .home-page { padding: 14px; } .hero-grid { grid-template-columns:1fr; } .search-box{ flex-direction:column; } .feature-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } .hero-cta .btn-primary, .hero-cta .btn-ghost { width: 100%; } .carousel-grid { grid-template-columns: 1fr; } .discover-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width:860px){ .home-page { padding: 14px; } .hero-grid { grid-template-columns:1fr; } .search-box{ flex-direction:column; } .feature-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } .hero-cta .btn-primary, .hero-cta .btn-ghost { width: 100%; } .discover-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width:680px){ .feature-grid{ grid-template-columns:1fr; } }
 @media (max-width:680px){ .discover-grid{ grid-template-columns:1fr; } }

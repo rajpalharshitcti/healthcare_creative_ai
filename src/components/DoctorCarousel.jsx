@@ -14,8 +14,7 @@ const DoctorCarousel = ({ doctors }) => {
 
   React.useEffect(() => {
     const onResize = () => {
-      const nextPerView = cardsPerViewByWidth();
-      setPerView(nextPerView);
+      setPerView(cardsPerViewByWidth());
       setIndex(0);
     };
     window.addEventListener("resize", onResize);
@@ -24,17 +23,9 @@ const DoctorCarousel = ({ doctors }) => {
 
   const pages = useMemo(() => {
     if (!doctors.length) return [];
-    if (doctors.length <= perView) return [doctors];
-
-    const slideCount = Math.ceil(doctors.length / perView);
     const chunks = [];
-    for (let i = 0; i < slideCount; i += 1) {
-      const start = i * perView;
-      const page = [];
-      for (let j = 0; j < perView; j += 1) {
-        page.push(doctors[(start + j) % doctors.length]);
-      }
-      chunks.push(page);
+    for (let i = 0; i < doctors.length; i += perView) {
+      chunks.push(doctors.slice(i, i + perView));
     }
     return chunks;
   }, [doctors, perView]);
@@ -46,25 +37,29 @@ const DoctorCarousel = ({ doctors }) => {
 
   return (
     <div className="doctor-carousel">
-      <div className="carousel-head">
-        {pages.length > 1 ? (
-          <div className="carousel-nav">
-            <button type="button" className="carousel-btn" onClick={prev} aria-label="Previous doctors">
-              {"<"}
-            </button>
-            <button type="button" className="carousel-btn" onClick={next} aria-label="Next doctors">
-              {">"}
-            </button>
-          </div>
-        ) : null}
-      </div>
+      {pages.length > 1 ? (
+        <div className="carousel-nav">
+          <button type="button" className="carousel-btn" onClick={prev} aria-label="Previous doctors">
+            {"<"}
+          </button>
+          <button type="button" className="carousel-btn" onClick={next} aria-label="Next doctors">
+            {">"}
+          </button>
+        </div>
+      ) : null}
 
-      <div className="carousel-grid" style={{ gridTemplateColumns: `repeat(${Math.max(1, perView)}, minmax(0, 1fr))` }}>
-        {pages[index].map((doctor, idx) => (
-          <div className="carousel-item" key={`${doctor.id}-${idx}`}>
-            <DoctorCard doctor={doctor} />
-          </div>
-        ))}
+      <div className="carousel-viewport">
+        <div className="carousel-track" style={{ transform: `translateX(-${index * 100}%)` }}>
+          {pages.map((page, pageIndex) => (
+            <div className="carousel-slide" key={pageIndex} style={{ gridTemplateColumns: `repeat(${Math.max(1, perView)}, minmax(0, 1fr))` }}>
+              {page.map((doctor) => (
+                <div className="carousel-item" key={doctor.id}>
+                  <DoctorCard doctor={doctor} />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
       {pages.length > 1 ? (

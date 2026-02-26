@@ -37,9 +37,18 @@ const DoctorProfile = () => {
           <div>
             <h2>{doctor.name}</h2>
             <p>{doctor.speciality}</p>
-            <p>{doctor.experience} | {doctor.reviews} reviews | {doctor.rating} rating</p>
+            <div className="doctor-meta-row">
+              <span>{doctor.experience} experience</span>
+              <span>{doctor.reviews} reviews</span>
+              <span>{doctor.rating} rating</span>
+            </div>
             <p>{doctor.hospital}</p>
           </div>
+        </div>
+        <div className="doctor-highlights">
+          <div className="highlight-chip"><strong>INR {doctor.fees}</strong><span>Consultation Fee</span></div>
+          <div className="highlight-chip"><strong>{doctor.timings}</strong><span>Availability</span></div>
+          <div className="highlight-chip"><strong>{doctor.likes}%</strong><span>Patient Recommendation</span></div>
         </div>
         <h3>Experience</h3>
         <p>Specialized clinical practice with evidence-based treatment and patient-first care delivery.</p>
@@ -54,8 +63,8 @@ const DoctorProfile = () => {
       <aside className="booking-sticky panel">
         <h3>Quick Booking</h3>
         <p>Consultation Fee: INR {doctor.fees}</p>
-        <Link className="btn-primary" to="/patient/book">Book Appointment</Link>
-        <Link className="btn-ghost" to="/patient/book">Book Video Consultation</Link>
+        <Link className="btn-primary booking-btn" to="/patient/book">Book Appointment</Link>
+        <Link className="btn-ghost booking-btn" to="/patient/book">Book Video Consultation</Link>
       </aside>
       </div>
       <section className="panel similar-doctors-panel">

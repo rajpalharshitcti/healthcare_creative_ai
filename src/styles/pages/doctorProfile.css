@@ -3,11 +3,43 @@
 .profile-layout { display: grid; grid-template-columns: 1.7fr 1fr; gap: 14px; }
 .doctor-info-panel { min-height: 420px; }
 .profile-head { display: flex; gap: 14px; align-items: center; margin-bottom: 10px; }
-.profile-head img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; }
-.booking-sticky { position: sticky; top: 92px; height: fit-content; display: grid; gap: 8px; }
+.profile-head img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: center 20%; }
+.doctor-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-bottom: 8px;
+  color: #52697b;
+  font-size: 15px;
+}
+.doctor-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0 14px;
+}
+.highlight-chip {
+  border: 1px solid #d5e5ef;
+  border-radius: 10px;
+  padding: 10px;
+  background: #f6fbff;
+  display: grid;
+  gap: 4px;
+}
+.highlight-chip strong {
+  color: var(--primary);
+  font-size: 15px;
+}
+.highlight-chip span {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+.booking-sticky { position: sticky; top: 92px; height: fit-content; display: grid; gap: 10px; }
+.booking-btn { width: 100%; min-height: 42px; }
 .similar-doctors-panel { margin-top: 2px; }
 
 @media (max-width:900px){
   .profile-layout { grid-template-columns: 1fr; }
   .booking-sticky { position: static; }
+  .doctor-highlights { grid-template-columns: 1fr; }
 }

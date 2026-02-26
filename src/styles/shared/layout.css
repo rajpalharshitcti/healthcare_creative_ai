@@ -14,6 +14,18 @@ h3 { font-size: 20px; font-weight: 600; }
 p { margin: 0 0 10px; font-size: 15px; line-height: 1.6; color: var(--text-secondary); }
 small { font-size: 12px; }
 a { text-decoration: none; color: inherit; }
+input,
+select,
+textarea,
+button,
+label,
+option {
+  font-family: "Ambit", "Inter", "Roboto", sans-serif;
+}
+input::placeholder,
+textarea::placeholder {
+  font-family: "Ambit", "Inter", "Roboto", sans-serif;
+}
 
 .field-error {
   display: block;

@@ -28,7 +28,7 @@ const Registration = () => {
 
   const submit = () => {
     if (!validate()) return;
-    completePatientRegistration();
+    completePatientRegistration(form);
     navigate("/patient/dashboard");
   };
 

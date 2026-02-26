@@ -41,7 +41,7 @@ const Onboarding = () => {
 
   const onSubmit = () => {
     if (!validateStepTwo()) return;
-    completeDoctorOnboarding();
+    completeDoctorOnboarding(form);
     navigate("/doctor/dashboard");
   };
 

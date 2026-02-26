@@ -46,7 +46,7 @@
 .metric-card h2 { margin: 0; color: var(--primary); }
 
 .doctor-card { background: #fff; box-shadow: var(--shadow); border-radius: 12px; overflow: hidden; border: 1px solid #e4edf2; }
-.doctor-card img { width: 100%; height: 210px; object-fit: cover; background: #eef4f8; display: block; }
+.doctor-card img { width: 100%; height: 240px; object-fit: cover; object-position: center 20%; background: #eef4f8; display: block; }
 .doctor-meta {
   padding: 14px;
   display: flex;
@@ -68,8 +68,7 @@
 .badge { display: inline-block; padding: 4px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; }
 .badge-success { color: var(--success); background: #eafaf1; }
 .doctor-carousel { display: grid; gap: 12px; }
-.carousel-head { display: flex; justify-content: flex-end; }
-.carousel-nav { display: flex; gap: 8px; }
+.carousel-nav { display: flex; gap: 8px; justify-content: flex-end; }
 .carousel-btn {
   width: 34px;
   height: 34px;
@@ -82,7 +81,20 @@
   cursor: pointer;
 }
 .carousel-btn:hover { background: #f2f8fc; }
-.carousel-grid { display: grid; gap: 14px; }
+.carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+.carousel-track {
+  display: flex;
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+.carousel-slide {
+  min-width: 100%;
+  display: grid;
+  gap: 14px;
+}
 .carousel-item { min-width: 0; display: flex; }
 .carousel-item .doctor-card { width: 100%; }
 .carousel-dots { display: flex; justify-content: center; gap: 6px; }
@@ -280,6 +292,7 @@
   .btn-primary, .btn-ghost, .btn-danger { min-height: 40px; }
   .role-modal-grid { grid-template-columns: 1fr; }
   .doctor-meta { min-height: auto; }
+  .doctor-card img { height: 210px; }
   .cart-summary-btn {
     width: 100%;
     min-width: 0;
