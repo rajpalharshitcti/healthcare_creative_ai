@@ -1,4 +1,0 @@
-.booking-flow { max-width: 740px; }
-.step-line { color: var(--primary); font-weight: 500; }
-.booking-flow input, .booking-flow select { width: 100%; max-width: 360px; border: 1px solid #d6e5ef; border-radius: var(--radius); padding: 10px; margin-bottom: 10px; }
-.step-actions { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }

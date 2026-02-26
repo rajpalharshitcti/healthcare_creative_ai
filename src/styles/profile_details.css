@@ -1,0 +1,6 @@
+﻿.tab-row { display: flex; gap: 8px; margin: 8px 0 14px; flex-wrap: wrap; }
+.tab-row button { padding: 9px 12px; border: 1px solid #d2e2ec; border-radius: var(--radius); background: #fff; }
+.tab-row button.active { background: #eaf4fb; border-color: var(--primary); color: var(--primary); }
+.form-grid { display: grid; gap: 8px; margin-bottom: 12px; }
+.form-grid input, .form-grid textarea { border: 1px solid #d5e5ee; border-radius: var(--radius); padding: 10px; }
+

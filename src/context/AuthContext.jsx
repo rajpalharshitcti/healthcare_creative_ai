@@ -134,13 +134,14 @@ export const AuthProvider = ({ children }) => {
     setEntryRole(nextRole);
   };
 
-  const login = async ({ email, password }) => {
+  const login = async ({ email, password }, selectedRole = entryRole) => {
+    const loginRole = selectedRole || entryRole || "patient";
     setIsLoading(true);
     try {
       const response = await apiPost("/auth/login", {
         email,
         password,
-        entryRole
+        entryRole: loginRole
       });
       setAuthToken(response.data.token);
       applyUserSnapshot(response.data.user);

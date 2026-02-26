@@ -1,10 +1,10 @@
-import React from "react";
+﻿import React from "react";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
-import Header from "../components/Header.jsx";
-import Sidebar from "../components/Sidebar.jsx";
+import Header from "../components/header.jsx";
+import Sidebar from "../components/sidebar.jsx";
 import Loader from "../components/Loader.jsx";
-import Footer from "../components/Footer.jsx";
+import Footer from "../components/footer.jsx";
 
 const AppLayout = () => {
   const { isLoading } = useAuth();
@@ -24,3 +24,4 @@ const AppLayout = () => {
 };
 
 export default AppLayout;
+

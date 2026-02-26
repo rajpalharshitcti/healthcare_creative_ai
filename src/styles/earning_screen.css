@@ -1,0 +1,6 @@
+﻿.subtle { margin-bottom: 12px; }
+.graph-wrap { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; gap: 10px; height: 220px; margin-bottom: 16px; }
+.bar-col { display: grid; justify-items: center; gap: 8px; }
+.bar { width: 44px; border-radius: 8px 8px 0 0; background: linear-gradient(180deg, var(--secondary), var(--primary)); }
+@media (max-width:680px){ .graph-wrap { grid-template-columns: repeat(3, minmax(0,1fr)); height: 300px; } }
+

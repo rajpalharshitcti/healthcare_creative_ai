@@ -1,0 +1,22 @@
+﻿.patient-registration-page {
+  min-height: calc(100vh - 140px);
+  padding: 20px;
+  display: grid;
+  place-items: center;
+}
+.patient-registration-card {
+  width: min(560px, 100%);
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+.patient-registration-card label { display: block; margin: 10px 0 6px; color: var(--text-primary); font-weight: 500; }
+.patient-registration-card input,
+.patient-registration-card select { width: 100%; border: 1px solid #d5e6ef; border-radius: var(--radius); padding: 11px; }
+.patient-registration-card .btn-primary { width: 100%; margin-top: 12px; }
+@media (max-width: 680px) {
+  .patient-registration-page { padding: 14px; }
+  .patient-registration-card { padding: 16px; }
+}
+

@@ -1,0 +1,10 @@
+﻿healthcare-front/
+|-- public/
+|-- src/
+|   |-- components/
+|   |-- context/
+|   |-- Layout/
+|   |-- pages/
+|   |-- routes/
+|   `-- styles/
+`-- backend/

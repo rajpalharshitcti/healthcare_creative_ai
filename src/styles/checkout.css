@@ -1,0 +1,11 @@
+﻿.checkout-card { max-width: 560px; display: grid; gap: 10px; }
+.checkout-card input, .checkout-card select { border: 1px solid #d5e4ee; border-radius: var(--radius); padding: 10px; background: #fff; color: var(--text-primary); }
+.checkout-card select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #6f8798 50%), linear-gradient(135deg, #6f8798 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(1em + 1px), calc(100% - 13px) calc(1em + 1px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+.checkout-card select option { background: #fff; color: #1f2d3d; }
+
