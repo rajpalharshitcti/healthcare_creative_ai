@@ -6,8 +6,7 @@ import Footer from "../../components/Footer.jsx";
 import RoleSelectionModal from "../../components/RoleSelectionModal.jsx";
 import DoctorCarousel from "../../components/DoctorCarousel.jsx";
 import DoctorCard from "../../components/DoctorCard.jsx";
-import { doctorsData } from "../../data/doctorsData.js";
-import { discoveryData } from "../../data/discoveryData.js";
+import { apiGet } from "../../services/apiClient.js";
 import "../../styles/pages/home.css";
 
 const features = [
@@ -23,11 +22,36 @@ const Home = () => {
   const navigate = useNavigate();
   const [openRoleModal, setOpenRoleModal] = useState(false);
   const [query, setQuery] = useState("");
+  const [doctors, setDoctors] = useState([]);
+  const [discovery, setDiscovery] = useState([]);
+
+  React.useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      try {
+        const [doctorsRes, discoveryRes] = await Promise.all([
+          apiGet("/doctors"),
+          apiGet("/discovery")
+        ]);
+        if (!mounted) return;
+        setDoctors(doctorsRes.data.doctors || []);
+        setDiscovery(discoveryRes.data.discovery || []);
+      } catch (_error) {
+        if (!mounted) return;
+        setDoctors([]);
+        setDiscovery([]);
+      }
+    };
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const searchPool = useMemo(() => {
-    const fromDoctors = doctorsData.flatMap((doctor) => [doctor.name, doctor.speciality, doctor.hospital]);
+    const fromDoctors = doctors.flatMap((doctor) => [doctor.name, doctor.speciality, doctor.hospital]);
     return [...new Set([...fromDoctors, "Full Body Checkup", "Paracetamol 650", "Thyroid Profile", "Diagnostic Tests"])];
-  }, []);
+  }, [doctors]);
 
   const suggestions = useMemo(() => {
     if (!query.trim()) return [];
@@ -37,12 +61,12 @@ const Home = () => {
   const matchingDoctors = useMemo(() => {
     if (!query.trim()) return [];
     const lowered = query.toLowerCase();
-    return doctorsData.filter((doctor) =>
+    return doctors.filter((doctor) =>
       doctor.name.toLowerCase().includes(lowered) ||
       doctor.speciality.toLowerCase().includes(lowered) ||
       doctor.hospital.toLowerCase().includes(lowered)
     );
-  }, [query]);
+  }, [query, doctors]);
 
   const onRoleSelect = (role) => {
     setActiveRole(role);
@@ -122,13 +146,13 @@ const Home = () => {
 
       <section>
         <h2 className="section-title">Doctor Highlights</h2>
-        <DoctorCarousel doctors={doctorsData} />
+        <DoctorCarousel doctors={doctors} />
       </section>
 
       <section>
         <h2 className="section-title">Discover Healthcare Services</h2>
         <div className="discover-grid">
-          {discoveryData.map((group) => (
+          {discovery.map((group) => (
             <article key={group.title} className="discover-card">
               <h3>{group.title}</h3>
               <ul>

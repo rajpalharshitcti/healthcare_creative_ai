@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
+import Toast from "../../components/Toast.jsx";
 import "../../styles/pages/login.css";
 
 const Login = () => {
@@ -11,6 +12,8 @@ const Login = () => {
   const [form, setForm] = React.useState({ email: "", password: "", agreed: false });
   const [showPassword, setShowPassword] = React.useState(false);
   const [errors, setErrors] = React.useState({});
+  const [authError, setAuthError] = React.useState("");
+  const [successMessage, setSuccessMessage] = React.useState("");
 
   const validate = () => {
     const next = {};
@@ -21,10 +24,19 @@ const Login = () => {
     return Object.keys(next).length === 0;
   };
 
-  const onLogin = () => {
+  const onLogin = async () => {
     if (!validate()) return;
-    login(form);
-    navigate(entryRole === "patient" ? "/patient/dashboard" : "/doctor/dashboard");
+    setAuthError("");
+    setSuccessMessage("");
+    const result = await login(form);
+    if (!result.success) {
+      setAuthError(result.message || "Login failed");
+      return;
+    }
+    setSuccessMessage("Login successful.");
+    setTimeout(() => {
+      navigate(entryRole === "patient" ? "/patient/dashboard" : "/doctor/dashboard");
+    }, 500);
   };
 
   const updateField = (field, value) => {
@@ -33,6 +45,8 @@ const Login = () => {
       const shouldClear = typeof value === "string" ? value.trim() : Boolean(value);
       if (shouldClear) setErrors((prev) => ({ ...prev, [field]: "" }));
     }
+    if (authError) setAuthError("");
+    if (successMessage) setSuccessMessage("");
   };
 
   return (
@@ -44,7 +58,7 @@ const Login = () => {
             <img src="/images/icons/logo-mark.svg" alt="HealthSphere logo" />
           </div>
           <h2>Login</h2>
-          <p>Welcome back! Please login to your account</p>
+          <p>Welcome back! Please log in to your account.</p>
 
           <label htmlFor="email">Email</label>
           <input
@@ -79,6 +93,8 @@ const Login = () => {
             <Link to="/forgot-password">Forgot password?</Link>
           </div>
           {errors.agreed ? <small className="field-error">{errors.agreed}</small> : null}
+          {authError ? <small className="field-error">{authError}</small> : null}
+          {successMessage ? <small className="field-success">{successMessage} Redirecting...</small> : null}
 
           <button className="btn-primary" type="button" onClick={onLogin}>Sign In</button>
           <div className="login-footer-link">
@@ -88,6 +104,7 @@ const Login = () => {
         </form>
       </div>
       <Footer />
+      <Toast open={Boolean(authError || successMessage)} message={authError || successMessage} type={authError ? "error" : "success"} />
     </div>
   );
 };

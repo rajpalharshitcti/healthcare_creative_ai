@@ -35,6 +35,14 @@ textarea::placeholder {
   line-height: 1.4;
 }
 
+.field-success {
+  display: block;
+  margin-top: 6px;
+  color: var(--success);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 .app-shell { min-height: 100vh; }
 .app-main { display: flex; min-height: calc(100vh - 80px); }
 .content-area { flex: 1; min-width: 0; padding: 18px; }

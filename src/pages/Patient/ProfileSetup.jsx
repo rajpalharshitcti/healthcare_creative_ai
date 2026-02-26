@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { patientData } from "../../data/patientData.js";
+import { apiGet, apiPut } from "../../services/apiClient.js";
+import Toast from "../../components/Toast.jsx";
 import "../../styles/pages/profileSetup.css";
 
 const tabs = ["Personal Details", "Lifestyle", "Medical History"];
@@ -7,11 +8,45 @@ const tabs = ["Personal Details", "Lifestyle", "Medical History"];
 const ProfileSetup = () => {
   const [tab, setTab] = useState(tabs[0]);
   const [errors, setErrors] = useState({});
-  const [personal, setPersonal] = useState({ name: patientData.name, age: String(patientData.age), bloodGroup: patientData.bloodGroup });
-  const [lifestyle, setLifestyle] = useState({ lifestyle: patientData.lifestyle, sleepHours: "", diet: "" });
-  const [history, setHistory] = useState({ chronic: patientData.chronicConditions, allergies: patientData.allergies, medications: "" });
+  const [apiError, setApiError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [personal, setPersonal] = useState({ name: "", age: "", bloodGroup: "" });
+  const [lifestyle, setLifestyle] = useState({ lifestyle: "", sleepHours: "", diet: "" });
+  const [history, setHistory] = useState({ chronic: "", allergies: "", medications: "" });
 
-  const onSave = () => {
+  React.useEffect(() => {
+    let mounted = true;
+    const loadProfile = async () => {
+      try {
+        const response = await apiGet("/patients/me", { withAuth: true });
+        if (!mounted || !response.data.patient) return;
+        const patient = response.data.patient;
+        setPersonal({
+          name: patient.full_name || "",
+          age: patient.age ? String(patient.age) : "",
+          bloodGroup: patient.blood_group || ""
+        });
+        setLifestyle({
+          lifestyle: patient.lifestyle || "",
+          sleepHours: patient.sleep_hours || "",
+          diet: patient.diet || ""
+        });
+        setHistory({
+          chronic: patient.chronic_conditions || "",
+          allergies: patient.allergies || "",
+          medications: patient.medications || ""
+        });
+      } catch (_error) {
+        if (!mounted) return;
+      }
+    };
+    loadProfile();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const onSave = async () => {
     const next = {};
     if (tab === "Personal Details") {
       if (!personal.name.trim()) next.name = "Please enter your name";
@@ -29,11 +64,34 @@ const ProfileSetup = () => {
       if (!history.medications.trim()) next.medications = "Please enter your current medications";
     }
     setErrors(next);
+    if (Object.keys(next).length) return;
+    setApiError("");
+    setSuccessMessage("");
+    try {
+      await apiPut("/patients/profile-setup", {
+        personalDetails: {
+          name: personal.name,
+          age: personal.age,
+          bloodGroup: personal.bloodGroup
+        },
+        lifestyle,
+        medicalHistory: history
+      }, { withAuth: true });
+      setSuccessMessage("Profile details saved successfully.");
+    } catch (error) {
+      setApiError(error.message || "Unable to save profile");
+    }
   };
 
   const clearFieldError = (field, value) => {
     if (errors[field] && value.trim()) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
+    if (apiError && value.trim()) {
+      setApiError("");
+    }
+    if (successMessage && value.trim()) {
+      setSuccessMessage("");
     }
   };
 
@@ -80,6 +138,9 @@ const ProfileSetup = () => {
       ) : null}
 
       <button className="btn-primary" onClick={onSave}>Save Profile</button>
+      {apiError ? <small className="field-error">{apiError}</small> : null}
+      {successMessage ? <small className="field-success">{successMessage}</small> : null}
+      <Toast open={Boolean(apiError || successMessage)} message={apiError || successMessage} type={apiError ? "error" : "success"} />
     </div>
   );
 };

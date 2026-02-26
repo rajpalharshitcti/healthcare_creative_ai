@@ -1,8 +1,9 @@
 import React from "react";
 
-const Toast = ({ open, message }) => {
+const Toast = ({ open, message, type = "success" }) => {
   if (!open) return null;
-  return <div className="toast">{message}</div>;
+  const className = `toast ${type === "error" ? "toast-error" : "toast-success"}`;
+  return <div className={className}>{message}</div>;
 };
 
 export default Toast;

@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import WorkspaceSwitchModal from "./WorkspaceSwitchModal.jsx";
 
 const Header = () => {
-  const { role, setActiveRole, isAuthenticated, logout, canUseRole, switchWorkspace } = useAuth();
+  const { role, setActiveRole, isAuthenticated, logout, canUseRole, switchWorkspace, addRole } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = React.useState(false);
@@ -36,15 +36,18 @@ const Header = () => {
     navigate("/login");
   };
 
-  const onWorkspaceChoose = (targetRole) => {
+  const onWorkspaceChoose = async (targetRole) => {
     setWorkspaceOpen(false);
     setMenuOpen(false);
     setActiveRole(targetRole);
     if (canUseRole(targetRole)) {
-      switchWorkspace(targetRole);
+      const result = await switchWorkspace(targetRole);
+      if (!result.success) return;
       navigate(targetRole === "patient" ? "/patient/dashboard" : "/doctor/dashboard");
       return;
     }
+    const addRoleResult = await addRole(targetRole);
+    if (!addRoleResult.success) return;
     navigate(targetRole === "patient" ? "/patient/register" : "/doctor/onboarding");
   };
 

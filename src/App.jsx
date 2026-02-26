@@ -27,8 +27,9 @@ import EditProfile from "./pages/Profile/EditProfile.jsx";
 import PatientRegistration from "./pages/Patient/Registration.jsx";
 
 const RequireAuth = ({ children, role: allowedRole, needsOnboarding = false, allowUnregistered = false }) => {
-  const { isAuthenticated, role, pendingOnboardingRole } = useAuth();
+  const { isAuthenticated, role, pendingOnboardingRole, authInitialized } = useAuth();
 
+  if (!authInitialized) return null;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   if (allowedRole && role !== allowedRole) {
     return <Navigate to={role === "patient" ? "/patient/dashboard" : "/doctor/dashboard"} replace />;

@@ -1,13 +1,34 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartSidebar from "../../components/CartSidebar.jsx";
-import { testPackagesData } from "../../data/testPackagesData.js";
+import Toast from "../../components/Toast.jsx";
+import { apiGet } from "../../services/apiClient.js";
 import "../../styles/pages/diagnostics.css";
 
 const Diagnostics = () => {
+  const [tests, setTests] = useState([]);
   const [cart, setCart] = useState([]);
   const [open, setOpen] = useState(false);
+  const [toast, setToast] = useState(false);
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    let mounted = true;
+    const loadTests = async () => {
+      try {
+        const response = await apiGet("/diagnostics/tests");
+        if (!mounted) return;
+        setTests(response.data.tests || []);
+      } catch (_error) {
+        if (!mounted) return;
+        setTests([]);
+      }
+    };
+    loadTests();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const add = (item) => {
     setCart((prev) => {
@@ -15,6 +36,8 @@ const Diagnostics = () => {
       if (ex) return prev.map((p) => (p.id === item.id ? { ...p, qty: p.qty + 1 } : p));
       return [...prev, { ...item, qty: 1 }];
     });
+    setToast(true);
+    setTimeout(() => setToast(false), 1200);
   };
 
   const increaseQty = (id) => {
@@ -50,7 +73,7 @@ const Diagnostics = () => {
         ) : null}
       </div>
       <div className="product-grid">
-        {testPackagesData.map((test) => (
+        {tests.map((test) => (
           <article key={test.id} className="panel product-card">
             <h3>{test.name}</h3>
             <p>{test.type}</p>
@@ -83,11 +106,12 @@ const Diagnostics = () => {
         items={cart}
         total={total}
         onClose={() => setOpen(false)}
-        onCheckout={() => navigate("/patient/diagnostics/checkout", { state: { total } })}
+        onCheckout={() => navigate("/patient/diagnostics/checkout", { state: { total, items: cart } })}
         onIncrease={increaseQty}
         onDecrease={decreaseQty}
         onRemove={removeItem}
       />
+      <Toast open={toast} message="Added to cart." />
     </div>
   );
 };

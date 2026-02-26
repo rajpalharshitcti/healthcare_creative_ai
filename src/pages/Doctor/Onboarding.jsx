@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
+import Toast from "../../components/Toast.jsx";
 import "../../styles/pages/onboarding.css";
 
 const Onboarding = () => {
@@ -19,6 +20,8 @@ const Onboarding = () => {
     city: ""
   });
   const [errors, setErrors] = React.useState({});
+  const [apiError, setApiError] = React.useState("");
+  const [successMessage, setSuccessMessage] = React.useState("");
 
   const validateStepOne = () => {
     const next = {};
@@ -39,10 +42,19 @@ const Onboarding = () => {
     return Object.keys(next).length === 0;
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!validateStepTwo()) return;
-    completeDoctorOnboarding(form);
-    navigate("/doctor/dashboard");
+    setApiError("");
+    setSuccessMessage("");
+    const result = await completeDoctorOnboarding(form);
+    if (!result.success) {
+      setApiError(result.message || "Unable to complete onboarding");
+      return;
+    }
+    setSuccessMessage("Doctor onboarding completed successfully.");
+    setTimeout(() => {
+      navigate("/doctor/dashboard");
+    }, 500);
   };
 
   const updateField = (field, value) => {
@@ -51,6 +63,8 @@ const Onboarding = () => {
       const shouldClear = typeof value === "string" ? value.trim() : Boolean(value);
       if (shouldClear) setErrors((prev) => ({ ...prev, [field]: "" }));
     }
+    if (apiError) setApiError("");
+    if (successMessage) setSuccessMessage("");
   };
 
   return (
@@ -118,6 +132,8 @@ const Onboarding = () => {
               {errors.city ? <small className="field-error">{errors.city}</small> : null}
             </>
           )}
+          {apiError ? <small className="field-error">{apiError}</small> : null}
+          {successMessage ? <small className="field-success">{successMessage} Redirecting...</small> : null}
 
           <div className="onboarding-actions">
             {step === 2 ? (
@@ -141,6 +157,7 @@ const Onboarding = () => {
         </form>
       </div>
       <Footer />
+      <Toast open={Boolean(apiError || successMessage)} message={apiError || successMessage} type={apiError ? "error" : "success"} />
     </div>
   );
 };

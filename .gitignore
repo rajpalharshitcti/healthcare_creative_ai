@@ -1,3 +1,6 @@
 /node_modules
 
 build/
+
+# Ignore all files in the dist directory
+/backend/

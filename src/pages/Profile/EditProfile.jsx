@@ -1,17 +1,20 @@
 import React from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
+import Toast from "../../components/Toast.jsx";
 import "../../styles/pages/editProfile.css";
 
 const EditProfile = () => {
   const { profile, role, updateProfile } = useAuth();
   const [form, setForm] = React.useState(profile);
   const [errors, setErrors] = React.useState({});
+  const [apiError, setApiError] = React.useState("");
+  const [successMessage, setSuccessMessage] = React.useState("");
 
   React.useEffect(() => {
     setForm(profile);
   }, [profile]);
 
-  const onSave = () => {
+  const onSave = async () => {
     const next = {};
     if (!form.fullName?.trim()) next.fullName = "Please enter your name";
     if (!form.email?.trim()) next.email = "Please enter your email address";
@@ -20,6 +23,7 @@ const EditProfile = () => {
     if (role === "doctor") {
       if (!form.speciality?.trim()) next.speciality = "Please enter your speciality";
       if (!form.qualification?.trim()) next.qualification = "Please enter your qualification";
+      if (!form.registrationNo?.trim()) next.registrationNo = "Please enter your registration number";
       if (!form.clinicName?.trim()) next.clinicName = "Please enter your clinic or hospital name";
     }
     if (role === "patient") {
@@ -30,7 +34,14 @@ const EditProfile = () => {
 
     setErrors(next);
     if (Object.keys(next).length) return;
-    updateProfile(form);
+    setSuccessMessage("");
+    const result = await updateProfile(form);
+    if (!result.success) {
+      setApiError(result.message || "Unable to save changes");
+      return;
+    }
+    setApiError("");
+    setSuccessMessage("Profile updated successfully.");
   };
 
   const updateField = (field, value) => {
@@ -39,6 +50,8 @@ const EditProfile = () => {
       const shouldClear = typeof value === "string" ? value.trim() : Boolean(value);
       if (shouldClear) setErrors((prev) => ({ ...prev, [field]: "" }));
     }
+    if (apiError) setApiError("");
+    if (successMessage) setSuccessMessage("");
   };
 
   const avatar = form.avatar?.trim() || "/images/doctors/doctor-fallback.svg";
@@ -85,6 +98,7 @@ const EditProfile = () => {
 
             <label>Registration Number</label>
             <input value={form.registrationNo || ""} onChange={(e) => updateField("registrationNo", e.target.value)} />
+            {errors.registrationNo ? <small className="field-error">{errors.registrationNo}</small> : null}
 
             <label>Clinic / Hospital</label>
             <input value={form.clinicName || ""} onChange={(e) => updateField("clinicName", e.target.value)} />
@@ -114,7 +128,10 @@ const EditProfile = () => {
           </>
         ) : null}
       </div>
+      {apiError ? <small className="field-error">{apiError}</small> : null}
+      {successMessage ? <small className="field-success">{successMessage}</small> : null}
       <button className="btn-primary" onClick={onSave}>Save Changes</button>
+      <Toast open={Boolean(apiError || successMessage)} message={apiError || successMessage} type={apiError ? "error" : "success"} />
     </div>
   );
 };

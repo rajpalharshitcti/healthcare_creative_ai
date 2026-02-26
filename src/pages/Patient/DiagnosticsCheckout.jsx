@@ -1,22 +1,50 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { apiPost } from "../../services/apiClient.js";
+import Toast from "../../components/Toast.jsx";
 import "../../styles/pages/diagnosticsCheckout.css";
 
 const DiagnosticsCheckout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const total = location.state?.total || 0;
+  const items = location.state?.items || [];
   const [address, setAddress] = React.useState("");
   const [slot, setSlot] = React.useState("Morning Slot");
   const [errors, setErrors] = React.useState({});
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [apiError, setApiError] = React.useState("");
+  const [successMessage, setSuccessMessage] = React.useState("");
 
-  const onConfirm = () => {
+  const onConfirm = async () => {
     const next = {};
     if (!address.trim()) next.address = "Please enter your sample collection address";
     if (!slot) next.slot = "Please select a slot";
+    if (!items.length) next.items = "No tests found in cart";
     setErrors(next);
     if (Object.keys(next).length) return;
-    navigate("/patient/dashboard");
+
+    setIsSubmitting(true);
+    setApiError("");
+    setSuccessMessage("");
+    try {
+      await apiPost("/diagnostics/orders", {
+        items: items.map((item) => ({
+          testId: item.id,
+          qty: item.qty
+        })),
+        address,
+        slot
+      }, { withAuth: true });
+      setSuccessMessage("Booking confirmed successfully.");
+      setTimeout(() => {
+        navigate("/patient/dashboard");
+      }, 500);
+    } catch (error) {
+      setApiError(error.message || "Unable to confirm booking");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const updateField = (field, value) => {
@@ -26,6 +54,8 @@ const DiagnosticsCheckout = () => {
       const shouldClear = typeof value === "string" ? value.trim() : Boolean(value);
       if (shouldClear) setErrors((prev) => ({ ...prev, [field]: "" }));
     }
+    if (apiError) setApiError("");
+    if (successMessage) setSuccessMessage("");
   };
 
   return (
@@ -36,7 +66,13 @@ const DiagnosticsCheckout = () => {
       {errors.address ? <small className="field-error">{errors.address}</small> : null}
       <select value={slot} onChange={(e) => updateField("slot", e.target.value)}><option>Morning Slot</option><option>Afternoon Slot</option></select>
       {errors.slot ? <small className="field-error">{errors.slot}</small> : null}
-      <button className="btn-primary" onClick={onConfirm}>Confirm Booking</button>
+      {errors.items ? <small className="field-error">{errors.items}</small> : null}
+      {apiError ? <small className="field-error">{apiError}</small> : null}
+      {successMessage ? <small className="field-success">{successMessage} Redirecting...</small> : null}
+      <button className="btn-primary" onClick={onConfirm} disabled={isSubmitting}>
+        {isSubmitting ? "Confirming..." : "Confirm Booking"}
+      </button>
+      <Toast open={Boolean(apiError || successMessage)} message={apiError || successMessage} type={apiError ? "error" : "success"} />
     </div>
   );
 };

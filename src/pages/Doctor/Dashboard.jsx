@@ -2,16 +2,33 @@ import React from "react";
 import DashboardCard from "../../components/DashboardCard.jsx";
 import TableComponent from "../../components/TableComponent.jsx";
 import StatusBadge from "../../components/StatusBadge.jsx";
-import { doctorAppointments } from "../../data/appointmentsData.js";
+import { apiGet } from "../../services/apiClient.js";
 import "../../styles/pages/doctorDashboard.css";
 
-const cards = [
-  { title: "Today's Appointments", value: "9", note: "3 pending confirmations" },
-  { title: "Total Patients", value: "312", note: "18 new in this month" },
-  { title: "Earnings (Mock)", value: "INR 84,500", note: "Current month projected" }
-];
-
 const Dashboard = () => {
+  const [cards, setCards] = React.useState([]);
+  const [appointmentList, setAppointmentList] = React.useState([]);
+
+  React.useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      try {
+        const response = await apiGet("/dashboard/doctor", { withAuth: true });
+        if (!mounted) return;
+        setCards(response.data.cards || []);
+        setAppointmentList(response.data.appointmentList || []);
+      } catch (_error) {
+        if (!mounted) return;
+        setCards([]);
+        setAppointmentList([]);
+      }
+    };
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   const columns = [
     { key: "id", label: "ID" },
     { key: "patient", label: "Patient" },
@@ -19,7 +36,7 @@ const Dashboard = () => {
     { key: "type", label: "Type" },
     { key: "status", label: "Status" }
   ];
-  const rows = doctorAppointments.map((a) => ({ ...a, status: <StatusBadge status={a.status} /> }));
+  const rows = appointmentList.map((a) => ({ ...a, status: <StatusBadge status={a.status} /> }));
 
   return (
     <div className="page-fade">

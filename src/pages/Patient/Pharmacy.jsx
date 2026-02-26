@@ -2,14 +2,33 @@ import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartSidebar from "../../components/CartSidebar.jsx";
 import Toast from "../../components/Toast.jsx";
-import { pharmacyData } from "../../data/pharmacyData.js";
+import { apiGet } from "../../services/apiClient.js";
 import "../../styles/pages/pharmacy.css";
 
 const Pharmacy = () => {
+  const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [open, setOpen] = useState(false);
   const [toast, setToast] = useState(false);
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    let mounted = true;
+    const loadProducts = async () => {
+      try {
+        const response = await apiGet("/pharmacy/products");
+        if (!mounted) return;
+        setProducts(response.data.medicines || []);
+      } catch (_error) {
+        if (!mounted) return;
+        setProducts([]);
+      }
+    };
+    loadProducts();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const addToCart = (item) => {
     setCart((prev) => {
@@ -54,7 +73,7 @@ const Pharmacy = () => {
         ) : null}
       </div>
       <div className="product-grid">
-        {pharmacyData.map((item) => (
+        {products.map((item) => (
           <article key={item.id} className="panel product-card">
             <h3>{item.name}</h3>
             <p>{item.category}</p>
@@ -87,12 +106,12 @@ const Pharmacy = () => {
         items={cart}
         total={total}
         onClose={() => setOpen(false)}
-        onCheckout={() => navigate("/patient/pharmacy/checkout", { state: { total } })}
+        onCheckout={() => navigate("/patient/pharmacy/checkout", { state: { total, items: cart } })}
         onIncrease={increaseQty}
         onDecrease={decreaseQty}
         onRemove={removeItem}
       />
-      <Toast open={toast} message="Added to cart" />
+      <Toast open={toast} message="Added to cart." />
     </div>
   );
 };

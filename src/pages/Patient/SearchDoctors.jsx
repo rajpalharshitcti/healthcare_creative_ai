@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import DoctorCard from "../../components/DoctorCard.jsx";
-import { doctorsData } from "../../data/doctorsData.js";
+import { apiGet } from "../../services/apiClient.js";
 import "../../styles/pages/searchDoctors.css";
 
 const SearchDoctors = () => {
@@ -11,16 +11,55 @@ const SearchDoctors = () => {
   const [freeOnly, setFreeOnly] = useState(false);
   const [rating, setRating] = useState(4.5);
   const [query, setQuery] = useState(initialQuery);
+  const [doctors, setDoctors] = useState([]);
+  const [allDoctors, setAllDoctors] = useState([]);
+
+  React.useEffect(() => {
+    let mounted = true;
+    const loadAll = async () => {
+      try {
+        const response = await apiGet("/doctors");
+        if (!mounted) return;
+        setAllDoctors(response.data.doctors || []);
+      } catch (_error) {
+        if (!mounted) return;
+        setAllDoctors([]);
+      }
+    };
+    loadAll();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  React.useEffect(() => {
+    let mounted = true;
+    const loadFiltered = async () => {
+      try {
+        const response = await apiGet("/doctors", {
+          params: {
+            query: query.trim(),
+            speciality,
+            freeOnly,
+            minRating: rating
+          }
+        });
+        if (!mounted) return;
+        setDoctors(response.data.doctors || []);
+      } catch (_error) {
+        if (!mounted) return;
+        setDoctors([]);
+      }
+    };
+    loadFiltered();
+    return () => {
+      mounted = false;
+    };
+  }, [query, speciality, freeOnly, rating]);
 
   const filtered = useMemo(
-    () => doctorsData.filter((d) => {
-      const matchesText = !query.trim() ||
-        d.name.toLowerCase().includes(query.toLowerCase()) ||
-        d.speciality.toLowerCase().includes(query.toLowerCase()) ||
-        d.hospital.toLowerCase().includes(query.toLowerCase());
-      return matchesText && (speciality === "all" || d.speciality === speciality) && d.rating >= rating && (!freeOnly || d.freeConsultation);
-    }),
-    [query, speciality, freeOnly, rating]
+    () => doctors,
+    [doctors]
   );
 
   return (
@@ -35,7 +74,7 @@ const SearchDoctors = () => {
         />
         <select value={speciality} onChange={(e) => setSpeciality(e.target.value)}>
           <option value="all">All Specialities</option>
-          {[...new Set(doctorsData.map((d) => d.speciality))].map((s) => <option key={s} value={s}>{s}</option>)}
+          {[...new Set(allDoctors.map((d) => d.speciality))].map((s) => <option key={s} value={s}>{s}</option>)}
         </select>
         <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
           <option value={4.5}>Rating 4.5+</option>

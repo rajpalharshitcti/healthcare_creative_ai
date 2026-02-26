@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
+import Toast from "../../components/Toast.jsx";
 import "../../styles/pages/patientRegistration.css";
 
 const Registration = () => {
@@ -15,6 +16,8 @@ const Registration = () => {
     city: ""
   });
   const [errors, setErrors] = React.useState({});
+  const [apiError, setApiError] = React.useState("");
+  const [successMessage, setSuccessMessage] = React.useState("");
 
   const validate = () => {
     const next = {};
@@ -26,10 +29,19 @@ const Registration = () => {
     return Object.keys(next).length === 0;
   };
 
-  const submit = () => {
+  const submit = async () => {
     if (!validate()) return;
-    completePatientRegistration(form);
-    navigate("/patient/dashboard");
+    setApiError("");
+    setSuccessMessage("");
+    const result = await completePatientRegistration(form);
+    if (!result.success) {
+      setApiError(result.message || "Unable to complete registration");
+      return;
+    }
+    setSuccessMessage("Patient registration completed successfully.");
+    setTimeout(() => {
+      navigate("/patient/dashboard");
+    }, 500);
   };
 
   const updateField = (field, value) => {
@@ -38,6 +50,8 @@ const Registration = () => {
       const shouldClear = typeof value === "string" ? value.trim() : Boolean(value);
       if (shouldClear) setErrors((prev) => ({ ...prev, [field]: "" }));
     }
+    if (apiError) setApiError("");
+    if (successMessage) setSuccessMessage("");
   };
 
   return (
@@ -78,11 +92,14 @@ const Registration = () => {
           <label>City</label>
           <input value={form.city} onChange={(e) => updateField("city", e.target.value)} placeholder="Enter city" />
           {errors.city ? <small className="field-error">{errors.city}</small> : null}
+          {apiError ? <small className="field-error">{apiError}</small> : null}
+          {successMessage ? <small className="field-success">{successMessage} Redirecting...</small> : null}
 
           <button type="button" className="btn-primary" onClick={submit}>Complete Registration</button>
         </form>
       </div>
       <Footer />
+      <Toast open={Boolean(apiError || successMessage)} message={apiError || successMessage} type={apiError ? "error" : "success"} />
     </div>
   );
 };
