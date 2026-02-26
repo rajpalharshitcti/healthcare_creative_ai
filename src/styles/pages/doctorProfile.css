@@ -1,0 +1,13 @@
+.doctor-profile-page { display: grid; gap: 14px; }
+.profile-topbar { display: flex; justify-content: flex-start; }
+.profile-layout { display: grid; grid-template-columns: 1.7fr 1fr; gap: 14px; }
+.doctor-info-panel { min-height: 420px; }
+.profile-head { display: flex; gap: 14px; align-items: center; margin-bottom: 10px; }
+.profile-head img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; }
+.booking-sticky { position: sticky; top: 92px; height: fit-content; display: grid; gap: 8px; }
+.similar-doctors-panel { margin-top: 2px; }
+
+@media (max-width:900px){
+  .profile-layout { grid-template-columns: 1fr; }
+  .booking-sticky { position: static; }
+}

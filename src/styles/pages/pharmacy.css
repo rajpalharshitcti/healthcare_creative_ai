@@ -1,0 +1,2 @@
+.product-card { display: grid; gap: 6px; }
+.product-card h4 { margin: 0; color: var(--primary); }

@@ -1,0 +1,12 @@
+.consult-layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; }
+.video-box {
+  min-height: 320px;
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, #edf5fb, #e8f6f3);
+  display: grid;
+  place-items: center;
+  color: var(--text-primary);
+}
+.consult-notes { display: grid; gap: 8px; }
+.consult-notes input, .consult-notes textarea { border: 1px solid #d4e5ee; border-radius: var(--radius); padding: 10px; }
+@media (max-width:900px){ .consult-layout { grid-template-columns: 1fr; } }

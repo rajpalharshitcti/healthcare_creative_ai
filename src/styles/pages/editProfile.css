@@ -1,0 +1,24 @@
+.profile-edit {
+  max-width: 760px;
+}
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.profile-grid label { color: var(--text-primary); font-weight: 500; }
+.profile-grid input {
+  width: 100%;
+  border: 1px solid #d6e6ef;
+  border-radius: var(--radius);
+  padding: 11px;
+}
+.profile-edit .btn-primary {
+  width: 220px;
+}
+@media (max-width: 680px) {
+  .profile-edit .btn-primary {
+    width: 100%;
+  }
+}

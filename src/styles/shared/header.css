@@ -1,0 +1,94 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid #dfe9ee;
+}
+.brand-wrap { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand-mark {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #f1f7fc;
+  border: 1px solid #d8e6ef;
+  box-shadow: 0 8px 16px rgba(23, 67, 95, 0.12);
+}
+.brand-mark img {
+  width: 30px;
+  height: 30px;
+}
+.brand-text h1 { font-size: 20px; margin: 0; white-space: nowrap; }
+.brand-text p { margin: 0; font-size: 12px; white-space: nowrap; letter-spacing: 0.01em; }
+.topbar-actions { display: flex; gap: 10px; }
+.profile-menu-wrap { position: relative; }
+.profile-menu-btn {
+  min-width: 138px;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.menu-caret {
+  font-size: 12px;
+  color: #678299;
+}
+.profile-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: min(260px, calc(100vw - 24px));
+  background: #fff;
+  border: 1px solid #dce7ee;
+  border-radius: 12px;
+  box-shadow: 0 14px 30px rgba(44, 62, 80, 0.16);
+  overflow: hidden;
+  z-index: 80;
+}
+.profile-menu a,
+.profile-menu button {
+  width: 100%;
+  border: 0;
+  background: #fff;
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 15px;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.profile-menu a:hover,
+.profile-menu button:hover { background: #f4fafc; }
+.profile-menu .danger { color: var(--danger); border-top: 1px solid #e5edf2; }
+.menu-item-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef5fa;
+  font-size: 12px;
+  line-height: 1;
+}
+.profile-menu .danger .menu-item-icon {
+  background: #fdecea;
+}
+
+@media (max-width: 680px) {
+  .topbar { padding: 10px 12px; flex-direction: column; align-items: stretch; gap: 8px; }
+  .brand-text h1 { font-size: 18px; }
+  .topbar-actions { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+  .topbar-actions .btn-ghost { width: 100%; }
+  .profile-menu-wrap { grid-column: 1 / -1; }
+  .profile-menu { width: 100%; position: static; margin-top: 8px; }
+}
