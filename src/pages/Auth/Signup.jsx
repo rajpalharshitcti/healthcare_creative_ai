@@ -12,7 +12,6 @@ const Signup = () => {
   const [form, setForm] = React.useState({
     fullName: "",
     email: "",
-    phone: "",
     password: ""
   });
   const [errors, setErrors] = React.useState({});
@@ -23,7 +22,6 @@ const Signup = () => {
     const next = {};
     if (!form.fullName.trim()) next.fullName = "Please enter your name";
     if (!form.email.trim()) next.email = "Please enter your email address";
-    if (!form.phone.trim()) next.phone = "Please enter your phone number";
     if (!form.password.trim()) next.password = "Please enter your password";
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -70,10 +68,6 @@ const Signup = () => {
               <label>Email</label>
               <input type="email" value={form.email} onChange={(e) => updateField("email", e.target.value)} placeholder="Enter email" />
               {errors.email ? <small className="field-error">{errors.email}</small> : null}
-
-              <label>Phone Number</label>
-              <input value={form.phone} onChange={(e) => updateField("phone", e.target.value)} placeholder="Enter phone number" />
-              {errors.phone ? <small className="field-error">{errors.phone}</small> : null}
 
               <label>Password</label>
               <input type="password" value={form.password} onChange={(e) => updateField("password", e.target.value)} placeholder="Create password" />

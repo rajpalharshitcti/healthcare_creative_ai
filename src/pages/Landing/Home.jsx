@@ -102,15 +102,17 @@ const Home = () => {
         <section className="search-panel">
           <h2>Find Doctors, Hospitals, Tests & Pharmacy</h2>
           <div className="search-box">
-            <span className="search-leading" aria-hidden="true">
-              <img src="/images/icons/search.svg" alt="" />
-            </span>
-            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search healthcare services..." />
-            {query ? (
-              <button type="button" className="search-clear" onClick={() => setQuery("")} aria-label="Clear search">
-                x
-              </button>
-            ) : null}
+            <div className="search-input-wrap">
+              <span className="search-leading" aria-hidden="true">
+                <img src="/images/icons/search.svg" alt="" />
+              </span>
+              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search healthcare services..." />
+              {query ? (
+                <button type="button" className="search-clear" onClick={() => setQuery("")} aria-label="Clear search">
+                  x
+                </button>
+              ) : null}
+            </div>
             <button className="btn-primary" onClick={onSearch}>Find Care</button>
           </div>
           {suggestions.length > 0 ? (

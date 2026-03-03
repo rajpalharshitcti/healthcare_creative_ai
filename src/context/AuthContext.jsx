@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
         ...prev,
         fullName,
         email,
-        phone,
+        phone: phone || prev.phone,
         city: "Not Set",
         avatar: selectedRole === "doctor" ? "https://i.pravatar.cc/320?img=12" : "https://i.pravatar.cc/320?img=68"
       }));

@@ -1,2 +1,35 @@
-.action-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.action-row select { border: 1px solid #d5e5ee; border-radius: var(--radius); padding: 8px; }
+.action-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.action-row .btn-ghost,
+.action-row .btn-danger {
+  width: auto;
+  min-width: 82px;
+}
+
+.action-row select {
+  width: auto;
+  min-width: 150px;
+  max-width: 190px;
+  border: 1px solid #d5e5ee;
+  border-radius: var(--radius);
+  padding: 8px 12px;
+}
+
+@media (max-width: 767px) {
+  .action-row {
+    align-items: stretch;
+  }
+
+  .action-row .btn-ghost,
+  .action-row .btn-danger,
+  .action-row select {
+    flex: 1 1 100%;
+    max-width: none;
+    width: 100%;
+  }
+}
