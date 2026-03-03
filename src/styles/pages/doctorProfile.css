@@ -35,11 +35,52 @@
   font-size: 12px;
 }
 .booking-sticky { position: sticky; top: 92px; height: fit-content; display: grid; gap: 10px; }
-.booking-btn { width: 100%; min-height: 42px; }
-.similar-doctors-panel { margin-top: 2px; }
+.booking-sticky h3 { margin-bottom: 2px; }
+.booking-sticky p { margin-bottom: 0; }
+.booking-actions { display: grid; gap: 10px; }
+.booking-btn {
+  width: 100%;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+.booking-sticky .btn-ghost {
+  background: #f8fbff;
+  border-color: #cad9ef;
+}
+.similar-doctors-panel { margin-top: 8px; }
 
-@media (max-width:900px){
+@media (min-width: 768px) and (max-width: 1024px){
+  .profile-layout { grid-template-columns: 1.25fr 1fr; }
+  .doctor-highlights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 767px){
   .profile-layout { grid-template-columns: 1fr; }
   .booking-sticky { position: static; }
   .doctor-highlights { grid-template-columns: 1fr; }
+  .profile-head { align-items: flex-start; }
+  .profile-head img { width: 84px; height: 84px; }
+  .booking-sticky { margin-bottom: 12px; gap: 12px; }
+  .similar-doctors-panel { margin-top: 12px; }
+}
+
+@media (max-width: 430px) {
+  .doctor-profile-page {
+    gap: 10px;
+  }
+  .profile-head {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .doctor-meta-row {
+    gap: 6px 10px;
+    font-size: 14px;
+  }
+  .booking-btn {
+    min-height: 44px;
+    font-size: 14px;
+  }
 }

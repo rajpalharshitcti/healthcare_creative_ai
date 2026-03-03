@@ -15,7 +15,13 @@
 .patient-registration-card input,
 .patient-registration-card select { width: 100%; border: 1px solid #d5e6ef; border-radius: var(--radius); padding: 11px; }
 .patient-registration-card .btn-primary { width: 100%; margin-top: 12px; }
-@media (max-width: 680px) {
+
+@media (max-width: 767px) {
   .patient-registration-page { padding: 14px; }
   .patient-registration-card { padding: 16px; }
+}
+
+@media (max-width: 430px) {
+  .patient-registration-page { padding: 12px 10px; }
+  .patient-registration-card { padding: 12px; }
 }

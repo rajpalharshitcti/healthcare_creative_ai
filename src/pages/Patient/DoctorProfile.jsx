@@ -16,6 +16,10 @@ const DoctorProfile = () => {
   const similarDoctors = [...specialityMatches, ...additionalMatches].slice(0, 6);
   const fallback = "/images/doctors/doctor-fallback.svg";
 
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]);
+
   return (
     <div className="doctor-profile-page page-fade">
       <div className="profile-topbar">
@@ -63,8 +67,10 @@ const DoctorProfile = () => {
       <aside className="booking-sticky panel">
         <h3>Quick Booking</h3>
         <p>Consultation Fee: INR {doctor.fees}</p>
-        <Link className="btn-primary booking-btn" to="/patient/book">Book Appointment</Link>
-        <Link className="btn-ghost booking-btn" to="/patient/book">Book Video Consultation</Link>
+        <div className="booking-actions">
+          <Link className="btn-primary booking-btn" to="/patient/book">Book Appointment</Link>
+          <Link className="btn-ghost booking-btn" to="/patient/book">Book Video Consultation</Link>
+        </div>
       </aside>
       </div>
       <section className="panel similar-doctors-panel">

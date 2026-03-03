@@ -1,13 +1,35 @@
 :root {
-  --primary: #2e86c1;
-  --secondary: #117a65;
-  --bg: #f4f6f7;
+  --primary: #2f3ea8;
+  --secondary: #0ea5a4;
+  --accent: #f5a524;
+  --bg: #f7f9fe;
+  --bg-soft: #eef3ff;
   --card: #ffffff;
-  --accent-soft: #e8f6f3;
+  --surface: #ffffff;
+  --accent-soft: #ecfdf9;
   --danger: #e74c3c;
-  --success: #28b463;
-  --text-primary: #2c3e50;
-  --text-secondary: #7b7d7d;
-  --radius: 8px;
-  --shadow: 0 12px 28px rgba(44, 62, 80, 0.08);
+  --success: #22b07d;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --radius: 12px;
+  --radius-pill: 999px;
+  --border: #dce4f3;
+  --shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  --shadow-soft: 0 8px 20px rgba(47, 62, 168, 0.1);
+  --gradient-brand: linear-gradient(135deg, #2f3ea8 0%, #0ea5a4 100%);
+  --gradient-brand-soft: linear-gradient(135deg, #2f6bff 0%, #0ea5a4 100%);
+  --gradient-surface: linear-gradient(160deg, #ffffff 0%, #f5f9ff 60%, #effffb 100%);
+  --focus-ring: rgba(47, 62, 168, 0.2);
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
+  --space-6: 48px;
+
+  --bp-mobile-max: 430px;
+  --bp-tablet-min: 768px;
+  --bp-tablet-max: 1024px;
+  --bp-desktop-min: 1280px;
 }

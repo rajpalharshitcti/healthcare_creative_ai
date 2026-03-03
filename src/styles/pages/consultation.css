@@ -9,4 +9,11 @@
 }
 .consult-notes { display: grid; gap: 8px; }
 .consult-notes input, .consult-notes textarea { border: 1px solid #d4e5ee; border-radius: var(--radius); padding: 10px; }
-@media (max-width:900px){ .consult-layout { grid-template-columns: 1fr; } }
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .consult-layout { grid-template-columns: 1.2fr 1fr; }
+}
+
+@media (max-width: 767px) {
+  .consult-layout { grid-template-columns: 1fr; }
+}

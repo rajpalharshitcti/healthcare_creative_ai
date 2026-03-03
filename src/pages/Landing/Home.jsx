@@ -18,6 +18,13 @@ const features = [
   { title: "Health Records", description: "Maintain and access medical records in one place.", to: "/patient/records" }
 ];
 
+const specialityChips = ["Cardiology", "Dermatology", "Neurology", "General Care", "Diagnostics", "Pharmacy"];
+const trustStats = [
+  { label: "Verified Doctors", value: "1,200+" },
+  { label: "Monthly Consultations", value: "45K+" },
+  { label: "Patient Satisfaction", value: "98%" }
+];
+
 const Home = () => {
   const { setActiveRole } = useAuth();
   const navigate = useNavigate();
@@ -32,7 +39,7 @@ const Home = () => {
   const suggestions = useMemo(() => {
     if (!query.trim()) return [];
     return searchPool.filter((item) => item.toLowerCase().includes(query.toLowerCase())).slice(0, 5);
-  }, [query]);
+  }, [query, searchPool]);
 
   const matchingDoctors = useMemo(() => {
     if (!query.trim()) return [];
@@ -59,91 +66,114 @@ const Home = () => {
     <div className="page-fade">
       <Header />
       <div className="home-page">
-      <section className="hero-grid">
-        <div className="hero-copy">
-          <h1>Your Trusted Digital Healthcare Partner</h1>
-          <p>
-            Book appointments, consult doctors, order medicines and manage your health in one place.
-          </p>
-          <div className="hero-cta">
-            <button className="btn-primary" onClick={() => setOpenRoleModal(true)}>Get Started</button>
-            <Link to="/patient/search-doctors" className="btn-ghost">Explore Doctors</Link>
+        <section className="hero-grid">
+          <div className="hero-copy">
+            <p className="hero-kicker">Welcome to MediNova Care</p>
+            <h1>Smarter Healthcare, Built Around You</h1>
+            <p>Book appointments, consult specialists, order medicines and manage records from one secure platform.</p>
+            <div className="hero-chip-row">
+              {specialityChips.map((chip) => <span key={chip} className="hero-chip">{chip}</span>)}
+            </div>
+            <div className="hero-cta">
+              <button className="btn-primary" onClick={() => setOpenRoleModal(true)}>Start Journey</button>
+              <Link to="/patient/search-doctors" className="btn-ghost">Browse Specialists</Link>
+            </div>
           </div>
-        </div>
-        <div className="hero-visual">
-          <div className="pulse pulse-1" />
-          <div className="pulse pulse-2" />
-          <div className="pulse pulse-3" />
-        </div>
-      </section>
-
-      <section className="search-panel">
-        <h2>Search Doctors, Specialities, Hospitals, Tests, Pharmacy</h2>
-        <div className="search-box">
-          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search healthcare services..." />
-          <button className="btn-primary" onClick={onSearch}>Search</button>
-        </div>
-        {suggestions.length > 0 ? (
-          <div className="suggestion-box">
-            {suggestions.map((item) => (
-              <button key={item} type="button" className="suggestion-item" onClick={() => setQuery(item)}>
-                <span aria-hidden="true">+</span>
-                <span>{item}</span>
-              </button>
-            ))}
+          <div className="hero-visual">
+            <div className="hero-visual-card">
+              <h3>24x7 Connected Care</h3>
+              <p>Appointments, diagnostics, pharmacy and health records in one secure ecosystem.</p>
+            </div>
+            <div className="pulse pulse-1" />
+            <div className="pulse pulse-2" />
+            <div className="pulse pulse-3" />
           </div>
-        ) : null}
-        {query.trim() ? (
-          <div className="search-results-panel">
-            <h3>Matching Doctors ({matchingDoctors.length})</h3>
-            {matchingDoctors.length ? (
-              <div className="doctor-grid">
-                {matchingDoctors.map((doctor) => <DoctorCard key={doctor.id} doctor={doctor} />)}
-              </div>
-            ) : (
-              <p>No matching doctors found for this search. Try another speciality or hospital.</p>
-            )}
-          </div>
-        ) : null}
-      </section>
+        </section>
 
-      <section>
-        <h2 className="section-title">Core Healthcare Features</h2>
-        <div className="feature-grid">
-          {features.map((item) => (
-            <Link key={item.title} className="feature-card clickable-card" to={item.to}>
-              <div className="feature-icon">+</div>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <h2 className="section-title">Doctor Highlights</h2>
-        <DoctorCarousel doctors={doctorsData} />
-      </section>
-
-      <section>
-        <h2 className="section-title">Discover Healthcare Services</h2>
-        <div className="discover-grid">
-          {discoveryData.map((group) => (
-            <article key={group.title} className="discover-card">
-              <h3>{group.title}</h3>
-              <ul>
-                {group.items.map((item) => (
-                  <li key={item}>
-                    <Link to="/login">{item}</Link>
-                  </li>
-                ))}
-              </ul>
+        <section className="trust-strip">
+          {trustStats.map((item) => (
+            <article key={item.label} className="trust-item">
+              <h3>{item.value}</h3>
+              <p>{item.label}</p>
             </article>
           ))}
-        </div>
-      </section>
+        </section>
 
-      <RoleSelectionModal open={openRoleModal} onClose={() => setOpenRoleModal(false)} onSelect={onRoleSelect} />
+        <section className="search-panel">
+          <h2>Find Doctors, Hospitals, Tests & Pharmacy</h2>
+          <div className="search-box">
+            <span className="search-leading" aria-hidden="true">
+              <img src="/images/icons/search.svg" alt="" />
+            </span>
+            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search healthcare services..." />
+            {query ? (
+              <button type="button" className="search-clear" onClick={() => setQuery("")} aria-label="Clear search">
+                x
+              </button>
+            ) : null}
+            <button className="btn-primary" onClick={onSearch}>Find Care</button>
+          </div>
+          {suggestions.length > 0 ? (
+            <div className="suggestion-box">
+              {suggestions.map((item) => (
+                <button key={item} type="button" className="suggestion-item" onClick={() => setQuery(item)}>
+                  <span aria-hidden="true">+</span>
+                  <span>{item}</span>
+                </button>
+              ))}
+            </div>
+          ) : null}
+          {query.trim() ? (
+            <div className="search-results-panel">
+              <h3>Matching Doctors ({matchingDoctors.length})</h3>
+              {matchingDoctors.length ? (
+                <div className="doctor-grid">
+                  {matchingDoctors.map((doctor) => <DoctorCard key={doctor.id} doctor={doctor} />)}
+                </div>
+              ) : (
+                <p>No matching doctors found for this search. Try another speciality or hospital.</p>
+              )}
+            </div>
+          ) : null}
+        </section>
+
+        <section>
+          <h2 className="section-title">Care Services</h2>
+          <div className="feature-grid">
+            {features.map((item) => (
+              <Link key={item.title} className="feature-card clickable-card" to={item.to}>
+                <div className="feature-icon">*</div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <h2 className="section-title">Featured Specialists</h2>
+          <DoctorCarousel doctors={doctorsData} />
+        </section>
+
+        <section>
+          <h2 className="section-title">Explore Healthcare Categories</h2>
+          <div className="discover-grid">
+            {discoveryData.map((group) => (
+              <article key={group.title} className="discover-card">
+                <h3>{group.title}</h3>
+                <ul>
+                  {group.items.map((item) => (
+                    <li key={item}>
+                      <Link to="/login">{item}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <RoleSelectionModal open={openRoleModal} onClose={() => setOpenRoleModal(false)} onSelect={onRoleSelect} />
       </div>
       <Footer />
     </div>

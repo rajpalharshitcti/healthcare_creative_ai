@@ -42,10 +42,16 @@
   justify-content: flex-end;
   flex-wrap: wrap;
 }
-@media (max-width: 680px) {
+
+@media (max-width: 767px) {
   .onboarding-page { padding: 14px; }
   .onboarding-card { padding: 16px; }
   .onboarding-actions { justify-content: stretch; }
   .onboarding-actions .btn-primary,
   .onboarding-actions .btn-ghost { width: 100%; }
+}
+
+@media (max-width: 430px) {
+  .onboarding-page { padding: 12px 10px; }
+  .onboarding-card { padding: 12px; }
 }

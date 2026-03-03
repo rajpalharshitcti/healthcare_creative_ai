@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     speciality: "General Physician",
     qualification: "MBBS",
     registrationNo: "REG-1021",
-    clinicName: "HealthSphere Clinic",
+    clinicName: "MediNova Clinic",
     experience: "8-12",
     consultationMode: "Both",
     ageGroup: "26-40",
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     }, 250);
   };
 
-  const login = ({ email }) => {
+  const login = ({ email }) => new Promise((resolve) => {
     setIsLoading(true);
     setTimeout(() => {
       setRole(entryRole);
@@ -66,10 +66,11 @@ export const AuthProvider = ({ children }) => {
       setPendingOnboardingRole(null);
       setIsAuthenticated(true);
       setIsLoading(false);
+      resolve(entryRole);
     }, 300);
-  };
+  });
 
-  const signup = ({ fullName, email, phone }, selectedRole = "patient") => {
+  const signup = ({ fullName, email, phone }, selectedRole = "patient") => new Promise((resolve) => {
     setIsLoading(true);
     setTimeout(() => {
       setRole(selectedRole);
@@ -86,8 +87,9 @@ export const AuthProvider = ({ children }) => {
       setPendingOnboardingRole(selectedRole);
       setIsAuthenticated(true);
       setIsLoading(false);
+      resolve(selectedRole);
     }, 350);
-  };
+  });
 
   const completeDoctorOnboarding = (doctorData) => {
     setRegisteredRoles((prev) => ({ ...prev, doctor: true }));

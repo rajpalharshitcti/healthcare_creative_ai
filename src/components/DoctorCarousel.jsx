@@ -3,7 +3,7 @@ import DoctorCard from "./DoctorCard.jsx";
 
 const cardsPerViewByWidth = () => {
   if (typeof window === "undefined") return 3;
-  if (window.innerWidth <= 680) return 1;
+  if (window.innerWidth <= 767) return 1;
   if (window.innerWidth <= 1024) return 2;
   return 3;
 };

@@ -8,6 +8,7 @@ import "./styles/shared/layout.css";
 import "./styles/shared/header.css";
 import "./styles/shared/footer.css";
 import "./styles/shared/components.css";
+import "./styles/shared/rebrand.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

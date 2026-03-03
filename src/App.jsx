@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useAuth } from "./context/AuthContext.jsx";
 import AppLayout from "./layouts/AppLayout.jsx";
 import Home from "./pages/Landing/Home.jsx";
@@ -28,8 +28,9 @@ import PatientRegistration from "./pages/Patient/Registration.jsx";
 
 const RequireAuth = ({ children, role: allowedRole, needsOnboarding = false, allowUnregistered = false }) => {
   const { isAuthenticated, role, pendingOnboardingRole } = useAuth();
+  const location = useLocation();
 
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (!isAuthenticated) return <Navigate to="/login" replace state={{ from: location }} />;
   if (allowedRole && role !== allowedRole) {
     return <Navigate to={role === "patient" ? "/patient/dashboard" : "/doctor/dashboard"} replace />;
   }

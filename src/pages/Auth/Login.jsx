@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
@@ -8,6 +8,7 @@ import "../../styles/pages/login.css";
 const Login = () => {
   const { login, entryRole } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = React.useState({ email: "", password: "", agreed: false });
   const [showPassword, setShowPassword] = React.useState(false);
   const [errors, setErrors] = React.useState({});
@@ -21,10 +22,15 @@ const Login = () => {
     return Object.keys(next).length === 0;
   };
 
-  const onLogin = () => {
+  const onLogin = async () => {
     if (!validate()) return;
-    login(form);
-    navigate(entryRole === "patient" ? "/patient/dashboard" : "/doctor/dashboard");
+    const activeRole = await login(form);
+    const returnTo = location.state?.from;
+    if (returnTo) {
+      navigate(returnTo, { replace: true });
+      return;
+    }
+    navigate(activeRole === "patient" ? "/patient/dashboard" : "/doctor/dashboard");
   };
 
   const updateField = (field, value) => {
@@ -41,7 +47,7 @@ const Login = () => {
       <div className="login-page">
         <form className="login-card" onSubmit={(e) => e.preventDefault()} noValidate>
           <div className="login-logo-wrap">
-            <img src="/images/icons/logo-mark.svg" alt="HealthSphere logo" />
+            <img src="/images/icons/logo-mark.svg" alt="MediNova Care logo" />
           </div>
           <h2>Login</h2>
           <p>Welcome back! Please login to your account</p>

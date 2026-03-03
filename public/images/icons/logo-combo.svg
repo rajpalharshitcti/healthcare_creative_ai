@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="72" viewBox="0 0 320 72" fill="none">
+  <defs>
+    <linearGradient id="mnComboGrad" x1="8" y1="8" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2F6BFF"/>
+      <stop offset="1" stop-color="#7B4DFF"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="64" height="64" rx="18" fill="#EFF4FF"/>
+  <path d="M20 52V21C20 18.7909 21.7909 17 24 17H27.7C28.9606 17 30.1435 17.5968 30.8974 18.6081L36 25.45L41.1026 18.6081C41.8565 17.5968 43.0394 17 44.3 17H48C50.2091 17 52 18.7909 52 21V52H46V28.1L39.0052 37.4768C37.4012 39.6275 34.5988 39.6275 32.9948 37.4768L26 28.1V52H20Z" fill="url(#mnComboGrad)"/>
+  <path d="M50 27H44V21H40V27H34V31H40V37H44V31H50V27Z" fill="#14B8A6"/>
+  <text x="84" y="34" fill="#182748" font-family="Montserrat, Arial, sans-serif" font-size="30" font-weight="700">MediNova Care</text>
+  <text x="84" y="55" fill="#667085" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="500">Modern. Premium. Smart Healthcare.</text>
+</svg>

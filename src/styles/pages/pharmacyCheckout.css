@@ -1,4 +1,4 @@
-.checkout-card { max-width: 560px; display: grid; gap: 10px; }
+.checkout-card { max-width: 560px; width: 100%; margin: 0 auto; display: grid; gap: 10px; }
 .checkout-card input, .checkout-card select { border: 1px solid #d5e4ee; border-radius: var(--radius); padding: 10px; background: #fff; color: var(--text-primary); }
 .checkout-card select {
   appearance: none;
@@ -8,3 +8,7 @@
   background-repeat: no-repeat;
 }
 .checkout-card select option { background: #fff; color: #1f2d3d; }
+
+@media (max-width: 767px) {
+  .checkout-card { max-width: 100%; }
+}

@@ -42,11 +42,11 @@ const Signup = () => {
     }
   };
 
-  const onRoleSelect = (role) => {
+  const onRoleSelect = async (role) => {
     setOpenRoleModal(false);
     setActiveRole(role);
-    signup(form, role);
-    navigate(role === "doctor" ? "/doctor/onboarding" : "/patient/register");
+    const nextRole = await signup(form, role);
+    navigate(nextRole === "doctor" ? "/doctor/onboarding" : "/patient/register");
   };
 
   return (
@@ -56,8 +56,8 @@ const Signup = () => {
         <div className="signup-card">
           <section className="signup-form-side">
             <div className="signup-mini-brand">
-              <img src="/images/icons/logo-mark.svg" alt="HealthSphere logo" />
-              <span>HealthSphere</span>
+              <img src="/images/icons/logo-mark.svg" alt="MediNova Care logo" />
+              <span>MediNova Care</span>
             </div>
             <h2>Sign Up</h2>
             <p>Let's get you all set up so you can access your account.</p>

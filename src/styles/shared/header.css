@@ -5,29 +5,57 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
   padding: 12px 18px;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid #dfe9ee;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  overflow-x: clip;
 }
 .brand-wrap { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand-text { min-width: 0; }
 .brand-mark {
   width: 46px;
   height: 46px;
   border-radius: 14px;
   display: grid;
   place-items: center;
-  background: #f1f7fc;
-  border: 1px solid #d8e6ef;
-  box-shadow: 0 8px 16px rgba(23, 67, 95, 0.12);
+  background: linear-gradient(160deg, #eff2ff 0%, #e7fcf8 100%);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
 }
 .brand-mark img {
   width: 30px;
   height: 30px;
 }
-.brand-text h1 { font-size: 20px; margin: 0; white-space: nowrap; }
+.brand-text h1 { font-size: 20px; margin: 0; white-space: nowrap; color: #1d2a4a; }
 .brand-text p { margin: 0; font-size: 12px; white-space: nowrap; letter-spacing: 0.01em; }
 .topbar-actions { display: flex; gap: 10px; }
+.topbar-hamburger {
+  display: none;
+  border: 1px solid #c8d7f0;
+  border-radius: 12px;
+  background: #fff;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+.topbar-hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: #2a3557;
+  transition: transform .2s ease, opacity .2s ease;
+}
+.topbar-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.topbar-hamburger.open span:nth-child(2) { opacity: 0; }
+.topbar-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 .profile-menu-wrap { position: relative; }
 .profile-menu-btn {
   min-width: 138px;
@@ -38,7 +66,7 @@
 }
 .menu-caret {
   font-size: 12px;
-  color: #678299;
+  color: #6475ad;
 }
 .profile-menu {
   position: absolute;
@@ -46,9 +74,9 @@
   top: calc(100% + 8px);
   width: min(260px, calc(100vw - 24px));
   background: #fff;
-  border: 1px solid #dce7ee;
+  border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 14px 30px rgba(44, 62, 80, 0.16);
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.16);
   overflow: hidden;
   z-index: 80;
 }
@@ -67,7 +95,7 @@
   gap: 10px;
 }
 .profile-menu a:hover,
-.profile-menu button:hover { background: #f4fafc; }
+.profile-menu button:hover { background: #f4f7ff; }
 .profile-menu .danger { color: var(--danger); border-top: 1px solid #e5edf2; }
 .menu-item-icon {
   width: 22px;
@@ -76,7 +104,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #eef5fa;
+  background: #eef2ff;
   font-size: 12px;
   line-height: 1;
 }
@@ -84,11 +112,53 @@
   background: #fdecea;
 }
 
-@media (max-width: 680px) {
-  .topbar { padding: 10px 12px; flex-direction: column; align-items: stretch; gap: 8px; }
-  .brand-text h1 { font-size: 18px; }
-  .topbar-actions { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
-  .topbar-actions .btn-ghost { width: 100%; }
-  .profile-menu-wrap { grid-column: 1 / -1; }
+@media (min-width: 768px) and (max-width: 1024px) {
+  .topbar { padding: 12px 16px; }
+  .brand-text h1 { font-size: 19px; }
+  .brand-text p { font-size: 11px; }
+}
+
+@media (max-width: 767px) {
+  .topbar {
+    padding: 10px 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand-wrap { min-width: 0; flex: 1; width: calc(100% - 52px); }
+  .brand-text h1 { font-size: 18px; overflow: hidden; text-overflow: ellipsis; }
+  .brand-text p { display: none; }
+  .topbar-hamburger { display: inline-flex; margin-left: auto; }
+  .topbar-actions {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 8px;
+  }
+  .topbar-actions.open { display: flex; animation: fadeIn 0.2s ease; }
+  .topbar-actions .btn-outline,
+  .topbar-actions .btn-primary {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+  }
+  .profile-menu-wrap { grid-column: auto; }
+  .profile-menu-btn { width: 100%; }
   .profile-menu { width: 100%; position: static; margin-top: 8px; }
+}
+
+@media (max-width: 430px) {
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+  }
+  .brand-mark img {
+    width: 26px;
+    height: 26px;
+  }
+  .brand-text h1 {
+    font-size: 16px;
+    max-width: 100%;
+  }
 }

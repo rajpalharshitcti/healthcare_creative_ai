@@ -3,8 +3,8 @@ import React from "react";
 const Footer = () => (
   <footer className="site-footer">
     <div className="footer-inner">
-      <p>HealthSphere Care</p>
-      <small>Secure digital healthcare experience for patients and doctors.</small>
+      <p>MediNova Care</p>
+      <small>Modern. Premium. Smart healthcare for patients and doctors.</small>
     </div>
   </footer>
 );
